@@ -1,0 +1,7 @@
+{
+  "name": "Olive Garden",
+  "shippingFee": 50,
+  "kitchen": {
+    "id": 1
+  }
+}
