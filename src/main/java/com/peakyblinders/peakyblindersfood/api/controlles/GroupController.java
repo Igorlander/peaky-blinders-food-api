@@ -11,7 +11,6 @@ import com.peakyblinders.peakyblindersfood.domain.models.Group;
 import com.peakyblinders.peakyblindersfood.domain.repositories.GroupRepository;
 import com.peakyblinders.peakyblindersfood.domain.services.GroupService;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

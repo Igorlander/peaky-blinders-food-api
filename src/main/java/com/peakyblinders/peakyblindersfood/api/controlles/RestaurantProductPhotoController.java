@@ -1,17 +1,25 @@
 package com.peakyblinders.peakyblindersfood.api.controlles;
 
+import com.peakyblinders.peakyblindersfood.api.assembler.PhotoProducModelAssembler;
+import com.peakyblinders.peakyblindersfood.api.model.dto.PhotoProductModelDTO;
 import com.peakyblinders.peakyblindersfood.api.model.input.PhotoProductInput;
+import com.peakyblinders.peakyblindersfood.domain.exceptions.EntityNotFoundException;
+import com.peakyblinders.peakyblindersfood.domain.models.PhotoProduct;
+import com.peakyblinders.peakyblindersfood.domain.models.Product;
+import com.peakyblinders.peakyblindersfood.domain.services.PhotoProductService;
+import com.peakyblinders.peakyblindersfood.domain.services.PhotoStorageService;
+import com.peakyblinders.peakyblindersfood.domain.services.ProductService;
 import com.peakyblinders.peakyblindersfood.domain.services.RestaurantService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Path;
-import java.util.UUID;
+import java.io.IOException;
+import java.io.InputStream;
 
 @RestController
 @RequestMapping("/restaurants/{restaurantId}/products/{productId}/photo")
@@ -19,22 +27,59 @@ public class RestaurantProductPhotoController {
 
     @Autowired
     private RestaurantService restaurantService;
+    @Autowired
+    private PhotoProductService photoProductService;
 
-    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void updadePhoto(@PathVariable Long restaurantId, @PathVariable Long productId,
-                            @Valid PhotoProductInput photoInput) {
-        var fileName = UUID.randomUUID().toString() + "_" + photoInput.getFile().getOriginalFilename();
-        var filePhoto = Path.of("C:/Users/igor/OneDrive/Área de Trabalho/catalogo/", fileName);
+    @Autowired
+    private PhotoProducModelAssembler photoProducModelAssembler;
 
-        System.out.println("ARQUIVO - " + photoInput.getDescription());
-        System.out.println("ARQUIVO - " + filePhoto);
-        System.out.println("ARQUIVO - " + photoInput.getFile().getContentType());
+    @Autowired
+    private PhotoStorageService storageService;
 
+    @Autowired
+    private ProductService productService;
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public PhotoProductModelDTO search(@PathVariable Long restaurantId, @PathVariable Long productId) {
+        PhotoProduct photoProduct = photoProductService.seekOrFail(restaurantId, productId);
+        return photoProducModelAssembler.toModel(photoProduct);
+    }
+
+    @GetMapping(produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<InputStreamResource> downloadPhoto(@PathVariable Long restaurantId,
+                                                             @PathVariable Long productId) {
         try {
-            photoInput.getFile().transferTo(filePhoto);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+
+            PhotoProduct photoProduct = photoProductService.seekOrFail(restaurantId, productId);
+            InputStream inputStream = storageService.toRecover(photoProduct.getNameFile());
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(new InputStreamResource(inputStream));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
 
     }
+
+
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public PhotoProductModelDTO updadePhoto(@PathVariable Long restaurantId, @PathVariable Long productId,
+                                            @Valid PhotoProductInput photoInput) throws IOException {
+        Product product = productService.seekOrFail(restaurantId, productId);
+        MultipartFile file = photoInput.getFile();
+
+        PhotoProduct photo = new PhotoProduct();
+        photo.setProduct(product);
+        photo.setDescription(photoInput.getDescription());
+        photo.setContentType(file.getContentType());
+        photo.setSizeFile(file.getSize());
+        photo.setNameFile(file.getOriginalFilename());
+
+        PhotoProduct photoSave = photoProductService.save(photo, file.getInputStream());
+        return photoProducModelAssembler.toModel(photoSave);
+
+    }
+
+
 }

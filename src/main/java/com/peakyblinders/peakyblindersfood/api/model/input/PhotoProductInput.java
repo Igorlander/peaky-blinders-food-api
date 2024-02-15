@@ -17,7 +17,6 @@ public class PhotoProductInput {
     @FileSize(max = "1MB")
     @FileContentType(allowed = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     private MultipartFile file;
-
     @NotBlank
     private String description;
 }
