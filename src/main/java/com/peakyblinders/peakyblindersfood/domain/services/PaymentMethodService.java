@@ -3,7 +3,6 @@ package com.peakyblinders.peakyblindersfood.domain.services;
 
 import com.peakyblinders.peakyblindersfood.domain.exceptions.EntityInUseException;
 import com.peakyblinders.peakyblindersfood.domain.exceptions.PaymentMethodNotFoundException;
-import com.peakyblinders.peakyblindersfood.domain.exceptions.RestaurantNotFoundException;
 import com.peakyblinders.peakyblindersfood.domain.models.PaymentMethod;
 import com.peakyblinders.peakyblindersfood.domain.repositories.PaymentMethodRepository;
 import org.springframework.beans.factory.annotation.Autowired;

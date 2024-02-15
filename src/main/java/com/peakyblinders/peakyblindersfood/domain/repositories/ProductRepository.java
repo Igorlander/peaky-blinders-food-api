@@ -1,5 +1,6 @@
 package com.peakyblinders.peakyblindersfood.domain.repositories;
 
+import com.peakyblinders.peakyblindersfood.domain.models.PhotoProduct;
 import com.peakyblinders.peakyblindersfood.domain.models.Product;
 import com.peakyblinders.peakyblindersfood.domain.models.Restaurant;
 import jakarta.websocket.server.PathParam;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product , Long> {
+public interface ProductRepository extends JpaRepository<Product , Long>, ProductRepositoryQueries {
 
     @Query("from Product where restaurant.id = :restaurant and id = :product")
     Optional<Product> findById(@Param("restaurant") Long restaurantId ,
@@ -22,4 +23,9 @@ public interface ProductRepository extends JpaRepository<Product , Long> {
 
     @Query("from Product p where p.active = true and p.restaurant = :restaurant")
     List<Product> findActiveByRestaurant(Restaurant restaurant);
+
+    @Query("select f from PhotoProduct f join f.product p  " +
+            "where p.restaurant.id = :restaurantId and f.product.id = :productId ")
+    Optional<PhotoProduct> findPhotoById(Long restaurantId, Long productId);
+
 }
