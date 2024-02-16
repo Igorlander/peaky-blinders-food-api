@@ -47,6 +47,7 @@ public class PhotoProductService {
          return photo;
     }
 
+<<<<<<< HEAD
     @Transactional
     public void removePhoto(Long restaurantId, Long productId){
         PhotoProduct photoProduct = seekOrFail(restaurantId, productId);
@@ -55,6 +56,8 @@ public class PhotoProductService {
         photoStorage.remove(photoProduct.getNameFile());
     }
 
+=======
+>>>>>>> origin/main
     public PhotoProduct seekOrFail(Long restaurantId, Long productId) {
         return productRepository.findPhotoById(restaurantId, productId)
                 .orElseThrow(() -> new PhotoProductNotFoundException(restaurantId, productId));
