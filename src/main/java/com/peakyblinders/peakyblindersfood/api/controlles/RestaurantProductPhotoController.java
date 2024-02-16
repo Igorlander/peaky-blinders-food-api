@@ -13,6 +13,7 @@ import com.peakyblinders.peakyblindersfood.domain.services.RestaurantService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -99,5 +100,10 @@ public class RestaurantProductPhotoController {
 
     }
 
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePhoto(@PathVariable Long restaurantId, @PathVariable Long productId) {
+        photoProductService.removePhoto(restaurantId, productId);
+    }
 
 }
