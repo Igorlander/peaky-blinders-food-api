@@ -1,4 +1,4 @@
-package com.peakyblinders.peakyblindersfood.api.exceptionhandler;
+package com.peakyblinders.peakyblindersfood.infrastructure.repository.exceptionhandler;
 
 import lombok.Getter;
 

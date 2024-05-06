@@ -13,11 +13,10 @@ import com.peakyblinders.peakyblindersfood.domain.services.RestaurantService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -42,7 +41,7 @@ public class RestaurantProductPhotoController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+      @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public PhotoProductModelDTO search(@PathVariable Long restaurantId, @PathVariable Long productId) {
         PhotoProduct photoProduct = photoProductService.seekOrFail(restaurantId, productId);
         return photoProducModelAssembler.toModel(photoProduct);

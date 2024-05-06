@@ -1,4 +1,4 @@
-package com.peakyblinders.peakyblindersfood.api.exceptionhandler;
+package com.peakyblinders.peakyblindersfood.infrastructure.repository.exceptionhandler;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
