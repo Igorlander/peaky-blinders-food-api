@@ -13,10 +13,22 @@ public class OrderTicketFlowService {
     @Autowired
     private TicketService ticketService;
 
+    @Autowired
+    private SendingEmailService sendingEmail;
+
     @Transactional
     public void confirmation(String code){
         Ticket ticket = ticketService.seekOrFail(code);
         ticket.confirmation();
+        var message = SendingEmailService.Message.builder()
+                .subject(ticket.getRestaurant().getName() + " - Pedido confirmado")
+                .body("O pedido de código <stron>" +
+                        ticket.getCode() + " </strong> foi confirmado! ")
+                .recipient(ticket.getClient().getEmail())
+                .build();
+
+        sendingEmail.toSend(message);
+
     }
     @Transactional
     public void delivery(String code){
