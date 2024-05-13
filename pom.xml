@@ -17,6 +17,7 @@
         <java.version>17</java.version>
         <modelmapper.version>3.0.0</modelmapper.version>
         <jasperreports.version>6.21.0</jasperreports.version>
+
     </properties>
     <dependencies>
         <dependency>
@@ -107,6 +108,7 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-mysql</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>
