@@ -42,16 +42,19 @@ After starting the application, you can access the API at the following URL:
 http://localhost:8080
 
 ## Main Endpoints
-- `/cozinhas` - Manages kitchens
-- `/restaurantes` - Manages restaurants
-- `/produtos` - Manages products
-- `/pedidos` - Manages orders
-- `/usuarios` - Manages users
-- `/formas-pagamento` - Manages payment methods
-- `/cidades` - Manages cities
-- `/estados` - Manages states
-- `/grupos` - Manages user groups
-- `/permissoes` - Manages permissions
+- `/kitchens` - Manages kitchens
+- `/restaurants` - Manages restaurants
+- `/products` - Manages products
+- `/orders` - Manages orders
+- `/users` - Manages users
+- `/ payment methods` - Manages payment methods
+- `/citys` - Manages cities
+- `/states` - Manages states
+- `/groups` - Manages user groups
+- `/permissions` - Manages permissions
+- `/statistics` - Manages statistics
+- `/tickets` - Manages tickets
+
 
 ## Features
 - **Kitchen Management:** Allows adding, listing, updating, and removing kitchens.
@@ -77,10 +80,9 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 If you have any questions or suggestions, feel free to contact me.
 
 - Name: Your Name
-- Email: your.email@domain.com
-- LinkedIn: [https://www.linkedin.com/in/igor-cataldi-grillo-5709bb47/)
+- Email: igor_cataldi@hotmail.com
+- LinkedIn: [https://www.linkedin.com/in/igor-cataldi-grillo-5709bb47/]
 - GitHub: [https://github.com/Igorlander]
 
 ## Class Diagram
-
-![Class Diagram]("src/main/resources/img/diagrama-de-classes-de-dominio.jpg")
+<img src="https://github.com/Igorlander/peaky-blinders-food-api/tree/main/src/main/resources/img">
